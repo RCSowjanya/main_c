@@ -3,8 +3,15 @@ import { Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FiArrowLeftCircle } from "react-icons/fi";
 import { GrCloudUpload } from "react-icons/gr";
-
+const data = {
+  mp: ["State 1", "State 2", "State 3", "State 4", "State 5"], // Example states, replace with actual data
+};
 const EditableForm = () => {
+  const [isEmpanelled, setIsEmpanelled] = useState(false);
+
+  const handleToggle = () => {
+    setIsEmpanelled(!isEmpanelled);
+  };
   const [formData, setFormData] = useState({
     mobile: "",
     email: "",
@@ -236,279 +243,197 @@ const EditableForm = () => {
               />
             </div>
             {/* Flex items for Street, City, Pincode, State */}
-            <div className="flex gap-4 max-[600px]:flex-col">
-              <div className="flex-1">
-                <input
-                  id="street"
-                  type="text"
-                  placeholder="Enter Street"
-                  className="ad mt-1 p-2  block w-full  border-[#CECECE] border rounded-md shadow-sm outline-none"
-                />
-              </div>
-              <div className="flex-1">
-                <input
-                  id="city"
-                  type="text"
-                  placeholder="Enter City"
-                  className="ad mt-1 p-2  block w-full   border-[#CECECE] border rounded-md shadow-sm outline-none"
-                />
-              </div>
-            </div>
-            <div className="flex gap-4 max-[600px]:flex-col">
-              <div className="flex-1">
-                <input
-                  id="pincode"
-                  type="text"
-                  placeholder="Enter Pincode"
-                  className="ad mt-1 p-2  block w-full  border-[#CECECE] border rounded-md shadow-sm outline-none"
-                />
-              </div>
-              <div className="flex-1">
-                <input
-                  id="state"
-                  type="text"
-                  placeholder="Enter State"
-                  className="ad mt-1 p-2  block w-full  border-[#CECECE] border rounded-md shadow-sm outline-none"
-                />
-              </div>
-            </div>
-            {/*--2nd form---*/}
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center  space-x-1">
               <span className="text-[14px] font-semibold text-[#004A9C] mr-7">
                 Empanelled with Electricity Board
                 <span className="text-[#004A9C]">*</span>
               </span>
               <div
-                onClick={() =>
-                  formik.setFieldValue(
-                    "empanelled_with_state_board",
-                    !formik.values.empanelled_with_state_board
-                  )
-                }
+                onClick={handleToggle}
                 className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer ${
-                  formik.values.empanelled_with_state_board
-                    ? "bg-[#0BB68D]"
-                    : "bg-gray-300"
+                  isEmpanelled ? "bg-[#0BB68D]" : "bg-gray-300"
                 }`}
               >
                 <div
                   className={`bg-white w-6 h-6 rounded-full p-0.5 shadow-md transform ${
-                    formik.values.empanelled_with_state_board
-                      ? "translate-x-6"
-                      : ""
+                    isEmpanelled ? "translate-x-6" : ""
                   } transition-transform duration-300`}
                 />
               </div>
               <span
                 className={`text-[14px] font-semibold ${
-                  formik.values.empanelled_with_state_board
-                    ? "text-[#0BB68D]"
-                    : "text-gray-400"
+                  isEmpanelled ? "text-[#0BB68D]" : "text-gray-400"
                 }`}
               >
-                {formik.values.empanelled_with_state_board ? "Yes" : "No"}
+                {isEmpanelled ? "Yes" : "No"}
               </span>
             </div>
-            <div className="relative">
-              <label
-                htmlFor="name_of_empanelled_electricity_board"
-                className="block font-[600] text-[14px] text-[#004A9C]"
-              >
-                State where you are empanelled with Electricity Board
-                <span className="text-[#004A9C]">*</span>
-              </label>
-              <Select
-                id="name_of_empanelled_electricity_board"
-                isMulti
-                options={states}
-                value={states.filter((option) =>
-                  formik.values.name_of_empanelled_electricity_board.includes(
-                    option.value
-                  )
-                )}
-                name="name_of_empanelled_electricity_board"
-                placeholder="Select empanelled boards"
-                className="basic-single"
-                classNamePrefix="select"
-              />
-              <p className="text-red-500 text-xs mt-1 absolute">{}</p>
-            </div>
-            )}
-            {/* Others */}
-            {isothers && (
-              <div className="relative">
+            {isEmpanelled && (
+              <div className="mt-4">
                 <label
-                  htmlFor="others"
-                  className="block font-[600] text-[14px] text-[#004A9C]"
+                  htmlFor="empanelled-state"
+                  className="block font-[600] text-[14px] text-[#004A9C] mb-3"
                 >
-                  Others
+                  Name Of Electricity Boards Empanelled With{" "}
+                  <span className="text-[#004A9C]">*</span>
                 </label>
-                <input
-                  id="others"
-                  type="text"
-                  placeholder="Enter Electricity Board Name"
-                  className="ad mt-1 p-3 block w-full border-[#CECECE] border rounded-md shadow-sm outline-none"
-                />
-
-                <p className="text-red-500 text-xs mt-1 absolute">{}</p>
+                <div className="relative">
+                  <select
+                    id="empanelled-state"
+                    className="ad p-3 text-[16px] cursor-pointer block w-full placeholder-[#757575] border-[#CECECE] border rounded-md shadow-sm outline-none appearance-none"
+                    style={{ color: "#757575" }}
+                    multiple
+                  >
+                    <option disabled value="" style={{ display: "none" }}>
+                      Empanelled boards (multi select drop-down)
+                    </option>
+                    <option value="state1">Proprietorship</option>
+                    <option value="state2">Unregistered Partnership</option>
+                    <option value="state3">LLP</option>
+                    <option value="state4">Incorporated Entity</option>
+                    {/* Add more options as needed */}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                    <MdOutlineKeyboardArrowDown
+                      size={24}
+                      className="text-[#757575]"
+                    />
+                  </div>
+                </div>
               </div>
             )}
+
             {/* Dropdown Fields in Flex */}
-            <div className="flex gap-3 max-[600px]:space-y-2 max-[600px]:flex-col">
-              <div className="w-1/2 max-[600px]:w-full relative">
+            <div className="flex gap-2 max-[600px]:space-y-2 max-[600px]:flex-col">
+              {/* Empanelled with Capacity*/}
+              <div className="w-1/2 max-[600px]:w-full">
                 <label
-                  htmlFor="combined_capacity"
-                  className="block font-[600] text-[14px] text-[#004A9C]"
+                  htmlFor="ad company-name"
+                  className="block font-[600] text-[14px] text-[#004A9C] mb-3"
                 >
-                  Combined Capacity Of total installations done till date{" "}
+                  Combined Capacity Of total installations done till date
                   <span className="text-[#004A9C]">*</span>
                 </label>
                 <input
-                  id="combined_capacity_of_total_installations_till_date"
-                  type="number"
-                  placeholder="Enter Combined Capacity  kW"
-                  className="ad mt-1 p-3 block w-full border-[#CECECE] border rounded-md shadow-sm outline-none"
+                  id="solar-installations"
+                  type="Number"
+                  placeholder="Enter Combined Capacity  KW"
+                  className="ad mt-1 p-3 block w-full  border-[#CECECE] border rounded-md shadow-sm outline-none"
                 />
-
-                <p className="text-red-500 text-xs mt-1 absolute">{}</p>
               </div>
 
-              <div className="w-1/2 max-[600px]:w-full relative">
+              {/*  Installation capacity*/}
+              <div className="w-1/2 max-[600px]:w-full">
                 <label
-                  htmlFor="installed_capacity_of_largest_project_worked_on"
-                  className="block font-[600] text-[14px] text-[#004A9C]"
+                  htmlFor="ad company-name"
+                  className="block font-[600] text-[14px] text-[#004A9C] mb-3"
                 >
-                  Installation capacity of the largest project worked on{" "}
+                  Installation capacity of the largest project worked on
                   <span className="text-[#004A9C]">*</span>
                 </label>
                 <input
-                  id="installed_capacity_of_largest_project_worked_on"
-                  type="number"
-                  placeholder="Enter Installation Capacity kW"
-                  className="ad mt-1 p-3 block w-full border-[#CECECE] border rounded-md shadow-sm outline-none"
+                  id="solar-installations"
+                  type="Number"
+                  placeholder="Enter Installation Capacity  KW"
+                  className="ad mt-1 p-3 block w-full  border-[#CECECE] border rounded-md shadow-sm outline-none"
                 />
-
-                <p className="text-red-500 text-xs mt-1 absolute">{}</p>
               </div>
             </div>
-            {/* Product Brands */}
-            <div className="w-full relative pt-2">
+            {/*----List of products----*/}
+            <div>
               <label
-                htmlFor="list_of_product_brands"
-                className="block font-[600] text-[14px] text-[#004A9C]"
+                htmlFor="ad company-name"
+                className="block font-[600] text-[14px] text-[#004A9C] mb-3"
               >
-                Brands You Deal With <span className="text-[#004A9C]">*</span>
+                List of product brands <span className="text-[#004A9C]">*</span>
               </label>
               <input
-                id="list_of_product_brands"
+                id="company-name"
                 type="text"
-                placeholder="Brand1, Brand2, Brand3"
-                className="ad mt-1 p-3 block w-full border-[#CECECE] border rounded-md shadow-sm outline-none"
+                placeholder="Brand1,Brand2,Brand3"
+                className="ad mt-1 p-3 text-[16px] block w-full placeholder-[#757575]  mb-6 border-[#CECECE] border rounded-md shadow-sm outline-none"
               />
-
-              <p className="text-red-500 text-xs mt-1 absolute">{}</p>
             </div>
-            <div className="relative pt-2">
+            <div>
               <label
-                htmlFor="name_of_empanelled_electricity_board"
-                className="block font-[600] text-[14px] text-[#004A9C]"
+                htmlFor="ad company-name"
+                className="block font-[600] text-[14px] text-[#004A9C] mb-3"
               >
-                States
+                Geographical Regions
                 <span className="text-[#004A9C]">*</span>
               </label>
-              <Select
-                id="states"
-                isMulti
-                options={activestates}
-                value={activestates.filter((option) =>
-                  formik.values.states.includes(option.value)
-                )}
-                name="states"
-                placeholder="Select State(s)"
-                className="basic-single"
-                classNamePrefix="select"
-              />
-
-              <p className="text-red-500 text-xs mt-1 absolute"></p>
-            </div>
-            {/* Geographical Regions */}
-            <div className="w-full relative">
-              <label
-                htmlFor="geographical_regions"
-                className="block font-[600] mb-1 text-[14px] text-[#004A9C]"
-              >
-                Geographical Regions Of Operations{" "}
-                <span className="text-[#004A9C]">*</span>
-              </label>
-              <Select
-                id="geographical_regions"
-                isSearchable
-                isMulti
-                options={cities}
-                value={cities.filter((option) =>
-                  formik.values.geographical_regions.includes(option.value)
-                )}
-                name="geographical_regions"
-                placeholder="Select geographical regions"
-                className="basic-single"
-                classNamePrefix="select"
-              />
-
-              <p className="text-red-500 text-xs mt-1 absolute"></p>
-            </div>
-            {/* Total Employees and Total Crews */}
-            <div className="flex gap-3 max-[600px]:space-y-2 max-[600px]:flex-col">
-              <div className="w-1/2 max-[600px]:w-full relative">
-                <label
-                  htmlFor="no_of_employees"
-                  className="block font-[600] mb-1 text-[14px] text-[#004A9C]"
+              <div className="relative">
+                <select
+                  id="empanelled-state"
+                  className="ad p-3 text-[16px] cursor-pointer block w-full placeholder-[#757575] border-[#CECECE] border rounded-md shadow-sm outline-none appearance-none"
+                  style={{ color: "#757575" }}
                 >
-                  Total Employees <span className="text-[#004A9C]">*</span>
-                </label>
-                <input
-                  id="no_of_employees"
-                  type="number"
-                  placeholder="Enter Total Employees"
-                  className="ad mt-1 p-3 block w-full border-[#CECECE] border rounded-md shadow-sm outline-none"
-                />
-
-                <p className="text-red-500 text-xs mt-1 absolute">{}</p>
+                  <option value="">Select State (multi-select DD)</option>
+                  <option value="state1">ProprietorShip</option>
+                  <option value="state2">Unregistered PartnerShip</option>
+                  <option value="state3">LLP</option>
+                  <option value="state4">Incorporated Entity</option>
+                  {/* Add more options as needed */}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                  <MdOutlineKeyboardArrowDown
+                    size={24}
+                    className="text-[#757575]"
+                  />
+                </div>
               </div>
-
-              <div className="w-1/2 max-[600px]:w-full relative">
+            </div>
+            <div className="flex gap-2 max-[600px]:space-y-2 max-[600px]:flex-col">
+              {/* Empanelled with Capacity*/}
+              <div className="w-1/2 max-[600px]:w-full">
                 <label
-                  htmlFor="total_no_of_installation_crews"
-                  className="block font-[600] text-[14px] text-[#004A9C]"
+                  htmlFor="ad company-name"
+                  className="block font-[600] text-[14px] text-[#004A9C] mb-3"
                 >
-                  Total Installation Crews Available
+                  Total No.of Employees
                   <span className="text-[#004A9C]">*</span>
                 </label>
                 <input
-                  id="total_no_of_installation_crews"
-                  type="number"
-                  placeholder="Enter Total Crews Available"
-                  className="ad mt-1 p-3 block w-full border-[#CECECE] border rounded-md shadow-sm outline-none"
+                  id="total-employees"
+                  type="Number"
+                  placeholder="Enter Total Employees"
+                  className="ad mt-1 p-3 block w-full  border-[#CECECE] border rounded-md shadow-sm outline-none"
                 />
+              </div>
 
-                <p className="text-red-500 text-xs mt-1 absolute">{}</p>
+              {/*  Installation capacity*/}
+              <div className="w-1/2 max-[600px]:w-full">
+                <label
+                  htmlFor="ad company-name"
+                  className="block font-[600] text-[14px] text-[#004A9C] mb-3"
+                >
+                  Total No.of Installation Crews
+                  <span className="text-[#004A9C]">*</span>
+                </label>
+                <input
+                  id="installations"
+                  type="Number"
+                  placeholder="Enter total Installation Crews"
+                  className="ad mt-1 p-3 block w-full  border-[#CECECE] border rounded-md shadow-sm outline-none"
+                />
               </div>
             </div>
-            {/* Reference Site Details */}
-            <div className="w-full relative pt-2">
-              <label
-                htmlFor="reference_site_details"
-                className="block font-[600] text-[14px] text-[#004A9C]"
-              >
-                Reference Site Details <span className="text-[#004A9C]">*</span>
-              </label>
-              <textarea
-                id="reference_site_details"
-                placeholder="Please mention about some of your key projects"
-                className="ad mt-1 p-3 block w-full border-[#CECECE] border rounded-md shadow-sm outline-none"
-                maxLength={2000}
-              />
 
-              <p className="text-red-500 text-xs mt-1 absolute">{}</p>
+            {/*---reference detailes----*/}
+            <div>
+              <label
+                htmlFor="ad company-name"
+                className="block font-[600] text-[14px] text-[#004A9C] mb-3"
+              >
+                Reference Site Details
+                <span className="text-[#004A9C]">*</span>
+              </label>
+              <input
+                id="details"
+                type="text"
+                placeholder="Reference Site Details"
+                className="ad  p-3 block w-full  placeholder-[#757575] border-[#CECECE] border rounded-md shadow-sm outline-none"
+              />
             </div>
             {/*--3rd one uploads---*/}
             {/*---GST Certificate----*/}
