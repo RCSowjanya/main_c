@@ -608,3 +608,32 @@ const EditableForm = () => {
 };
 
 export default EditableForm;
+CUSP Partner With us:
+
+1. Company Name
+2. Mobile Number
+3.Email
+4.Business Role
+5.Type Of Entity
+6.Total Exp in Solar Installations
+7.GST No
+8.Registered Office Address
+- Building Name, Street, City, Pincode, Enter State
+9.Brands you deal with
+10.States
+11.Geographical Regions of Operations
+12.Total Employees
+13.Total Installation Crews Available
+14.Reference Site Details
+15.GST Certificate - Upload
+
+
+Get QUOTE:
+
+1. Your Name
+2. Mobile Number
+3. Email Address
+4. House Number
+5. Street, State, District, City, Pincode.
+6. Roof Area : length, Breath, calculate
+7. Capacity to Install.
